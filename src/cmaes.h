@@ -187,7 +187,7 @@ class CMAES : public libcmaes::ESOStrategy<libcmaes::CMAParameters<libcmaes::Gen
             this->_solutions._elapsed_ask = std::chrono::duration_cast<std::chrono::milliseconds>(tstop-tstart).count();
         #endif
           this->_currentCandidates = pop;
-          return pop;
+          return pop.transpose();
       };
 
         /**
