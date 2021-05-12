@@ -1,8 +1,9 @@
+import os 
 from setuptools import setup
 
 # Available at setup time due to pyproject.toml
 from pybind11.setup_helpers import Pybind11Extension, build_ext
-from pybind11 import get_cmake_dir
+from pybind11 import get_cmake_dir, get_include
 
 import sys
 
@@ -17,11 +18,16 @@ __version__ = "0.0.1"
 #   Sort input source files if you glob sources to ensure bit-for-bit
 #   reproducible builds (https://github.com/pybind/python_example/pull/53)
 
+
+here = os.path.dirname(os.path.realpath(__file__))
+
+
 ext_modules = [
     Pybind11Extension("es",
         ["src/wrapper.cpp"],
         # Example: passing in the version to the compiled code
         define_macros = [('VERSION_INFO', __version__)],
+        include_dirs=[get_include(), os.path.join(here, "lib", "eigen3") ],
         ),
 ]
 
