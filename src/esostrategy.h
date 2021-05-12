@@ -318,10 +318,10 @@ namespace libcmaes
     };
 
 
-template class ESOStrategy<CMAParameters<GenoPheno<NoBoundStrategy>>,CMASolutions >;
-template class ESOStrategy<CMAParameters<GenoPheno<pwqBoundStrategy>>,CMASolutions >;
-template class ESOStrategy<CMAParameters<GenoPheno<NoBoundStrategy,linScalingStrategy>>,CMASolutions >;
-template class ESOStrategy<CMAParameters<GenoPheno<pwqBoundStrategy,linScalingStrategy>>,CMASolutions >;
+//template class ESOStrategy<CMAParameters<GenoPheno<NoBoundStrategy>>,CMASolutions >;
+//template class ESOStrategy<CMAParameters<GenoPheno<pwqBoundStrategy>>,CMASolutions >;
+//template class ESOStrategy<CMAParameters<GenoPheno<NoBoundStrategy,linScalingStrategy>>,CMASolutions >;
+//template class ESOStrategy<CMAParameters<GenoPheno<pwqBoundStrategy,linScalingStrategy>>,CMASolutions >;
 
 
 

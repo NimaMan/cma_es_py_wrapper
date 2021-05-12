@@ -75,7 +75,7 @@ class CMAES : public libcmaes::ESOStrategy<libcmaes::CMAParameters<libcmaes::Gen
          *        multivariate normal distribution.
          * return A matrix whose rows contain the candidate points.
          */
-        dMat ask(){
+        dMat& ask(){
             #ifdef HAVE_DEBUG
                 std::chrono::time_point<std::chrono::system_clock> tstart = std::chrono::system_clock::now();
             #endif
@@ -106,7 +106,7 @@ class CMAES : public libcmaes::ESOStrategy<libcmaes::CMAParameters<libcmaes::Gen
             //debug
             
             // sample for multivariate normal distribution, produces one candidate per column.
-            dMat pop;
+            // dMat pop;
             if (!this->_parameters._sep && !this->_parameters._vd)
                 pop = _esolver.samples(this->_parameters._lambda,this->_solutions._sigma); // Eq (1).
             else if (this->_parameters._sep)
@@ -187,8 +187,10 @@ class CMAES : public libcmaes::ESOStrategy<libcmaes::CMAParameters<libcmaes::Gen
             this->_solutions._elapsed_ask = std::chrono::duration_cast<std::chrono::milliseconds>(tstop-tstart).count();
         #endif
           this->_currentCandidates = pop;
-          return pop.transpose();
+          return pop; //.transpose();
       };
+
+       dMat& getMatrix() { return pop; }
 
         /**
          * \brief Updates the covariance matrix and prepares for the next iteration.
@@ -255,6 +257,7 @@ class CMAES : public libcmaes::ESOStrategy<libcmaes::CMAParameters<libcmaes::Gen
   };
       
     protected:
+      dMat pop;
       Eigen::EigenMultivariateNormal<double> _esolver;  /**< multivariate normal distribution sampler, and eigendecomposition solver. */
       std::ofstream *_fplotstream = nullptr; /**< plotting file stream, not in parameters because of copy-constructor hell. */
     

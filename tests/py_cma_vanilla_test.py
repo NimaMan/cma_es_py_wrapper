@@ -9,12 +9,6 @@ import numpy as np
 import time
 
 
-problem_dimension = 10000
-x0 = [10]*problem_dimension
-population_size = 50 # lambda is a reserved keyword in python, using lambda_ instead.
-seed = 0 # 0 for seed auto-generated within the lib.
-sigma = 0.1
-
 # objective function.
 def nfitfunc(x):
     val = 0.0
@@ -25,9 +19,14 @@ def nfitfunc(x):
 
 
 def cpp_cma(f=nfitfunc):
-    t = time.process_time()
+    problem_dimension = 100
+    x0 = np.array([1]*problem_dimension)
+    population_size = 50 # lambda is a reserved keyword in python, using lambda_ instead.
+    seed = 0 # 0 for seed auto-generated within the lib.
+    sigma = 0.1
 
-    esopt = es.cma(x0=x0, sigma=sigma, population_size=population_size, seed=seed) 
+    esopt = es.cma( x0=x0, sigma=sigma, population_size=population_size, seed=seed) 
+    t = time.process_time()
     for _ in range(1000):
         params = esopt.ask()
         fvals = []
@@ -39,11 +38,17 @@ def cpp_cma(f=nfitfunc):
     return fvals, elapsed_time
 
 def py_cma(f=nfitfunc):
-    t = time.process_time()
+    problem_dimension = 100
+    x0 = np.array([1]*problem_dimension)
+    population_size = 50 # lambda is a reserved keyword in python, using lambda_ instead.
+    seed = 0 # 0 for seed auto-generated within the lib.
+    sigma = 0.1
+
     esopt = cma.CMAEvolutionStrategy(x0, sigma, 
        {"popsize": population_size,
         },
         )
+    t = time.process_time()
     for _ in range(1000):
         params = esopt.ask()
         fvals = []
@@ -54,7 +59,48 @@ def py_cma(f=nfitfunc):
     elapsed_time = time.process_time() - t
     return fvals, elapsed_time
 
+def test_high_dimensional_ask_tell_communication_time_cpp(problem_dimension = 10000):
+    x0 = np.array([1]*problem_dimension)
+    population_size = 50 # lambda is a reserved keyword in python, using lambda_ instead.
+    seed = 0 # 0 for seed auto-generated within the lib.
+    sigma = 0.1
+
+    esopt = es.cma(x0=x0, sigma=sigma, population_size=population_size, seed=seed) 
+    #esopt = es.cma(dim=problem_dimension, x0=x0, sigma=sigma, population_size=population_size, seed=seed) 
+    t = time.process_time()
+    for _ in range(1):
+        esopt.ask()
+        print("ask done")
+        mat = esopt.get_matrix()
+
+        fvals = np.random.random(population_size)
+        esopt.tell(fvals)
+    
+    elapsed_time = time.process_time() - t
+    return elapsed_time
+
+def test_high_dimensional_ask_tell_communication_time_py(problem_dimension = 10000):
+    x0 = np.array([1]*problem_dimension)
+    population_size = 50 # lambda is a reserved keyword in python, using lambda_ instead.
+    seed = 0 # 0 for seed auto-generated within the lib.
+    sigma = 0.1
+
+    esopt = cma.CMAEvolutionStrategy(x0, sigma, 
+       {"popsize": population_size,
+        },
+        )
+    t = time.process_time()
+    for _ in range(1):
+        params = esopt.ask()
+        fvals = np.random.random(population_size)
+        esopt.tell(params, fvals)
+    
+    elapsed_time = time.process_time() - t
+    return elapsed_time
 
 
-print(cpp_cma()[1])
-print(py_cma()[1])
+print("CPP process time: ", cpp_cma()[1])
+print("Py process time: ", py_cma()[1])
+
+#print(test_high_dimensional_ask_tell_communication_time_cpp())
+#print(test_high_dimensional_ask_tell_communication_time_py())

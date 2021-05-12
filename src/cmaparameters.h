@@ -63,7 +63,7 @@ namespace libcmaes
        * @param sep whether to use sep-CMA-ES, using diagonal covariance matrix (modifies covariance default learning rate)
        */
       CMAParameters(const int &dim,
-		    const double *x0,
+		    const double &x0,
 		    const double &sigma,
 		    const int &lambda=-1,
 		    const uint64_t &seed=0,

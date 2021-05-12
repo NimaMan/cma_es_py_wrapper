@@ -56,8 +56,8 @@ PYBIND11_MODULE(es, m)
       
     .def(py::init([](
             const int dim,
-		    const double *x0,
-		    const double sigma,
+            const double x0=1.0,
+            const double sigma=0.1,
 		    const int lambda=-1,
 		    const uint64_t seed=1234){
             libcmaes::CMAParameters<> cmaparams(dim, x0, sigma, lambda, seed); 
@@ -82,7 +82,8 @@ PYBIND11_MODULE(es, m)
         }
         ), py::arg("x0"), py::arg("sigma"), py::arg("population_size")=-1, py::arg("seed")=1234 
         )
-    .def("ask", &CMAES::ask) 
+    .def("get_matrix", &CMAES::getMatrix, py::return_value_policy::reference_internal)
+    .def("ask", &CMAES::ask, py::return_value_policy::reference_internal)
     .def("tell", &CMAES::tell) 
     ;
 

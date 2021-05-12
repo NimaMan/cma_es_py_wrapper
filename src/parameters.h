@@ -62,6 +62,25 @@ namespace libcmaes
        * \brief empty constructor.
        */
     Parameters():_dim(0),_lambda(-1),_max_iter(0) {}
+
+      /**
+       * \brief constructor
+       * @param dim problem dimensions
+       * @param x0 initial search point
+       * @param lambda number of offsprings sampled at each step
+       * @param seed initial random seed, useful for reproducing results (if unspecified, automatically generated from current time)
+       * @param gp genotype / phenotype object
+       */
+    Parameters(const int &dim, const double &x0, const int &lambda=-1,
+	       const uint64_t &seed=0, const TGenoPheno &gp=GenoPheno<NoBoundStrategy>())
+      :_dim(dim),_lambda(lambda),_seed(seed),_gp(gp)
+      {
+	if (_lambda == -1 || _lambda < 2) // lambda is unspecified
+	  _lambda = 4 + floor(3.0*log(_dim));
+	if (_seed == 0) // seed is not forced.
+	  _seed = static_cast<uint64_t>(std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::high_resolution_clock::now().time_since_epoch()).count());
+	set_x0(x0);
+      }
       
       /**
        * \brief constructor
