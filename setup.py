@@ -28,6 +28,7 @@ ext_modules = [
         # Example: passing in the version to the compiled code
         define_macros = [('VERSION_INFO', __version__)],
         include_dirs=[get_include(), os.path.join(here, "lib", "eigen3") ],
+        extra_complier_args=["-O2", "-fopenmp"]
         ),
 ]
 
