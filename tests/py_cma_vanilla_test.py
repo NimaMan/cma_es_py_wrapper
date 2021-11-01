@@ -1,7 +1,4 @@
 
-import sys
-sys.path.append("./build")
-
 import es
 import cma
 import numpy as np 
@@ -21,7 +18,7 @@ def nfitfunc(x):
 def cpp_cma(f=nfitfunc):
     problem_dimension = 100
     x0 = np.array([1]*problem_dimension)
-    population_size = 50 # lambda is a reserved keyword in python, using lambda_ instead.
+    population_size = 50
     seed = 0 # 0 for seed auto-generated within the lib.
     sigma = 0.1
 
@@ -40,7 +37,7 @@ def cpp_cma(f=nfitfunc):
 def py_cma(f=nfitfunc):
     problem_dimension = 100
     x0 = np.array([1]*problem_dimension)
-    population_size = 50 # lambda is a reserved keyword in python, using lambda_ instead.
+    population_size = 50 
     seed = 0 # 0 for seed auto-generated within the lib.
     sigma = 0.1
 
@@ -61,7 +58,7 @@ def py_cma(f=nfitfunc):
 
 def test_high_dimensional_ask_tell_communication_time_cpp(problem_dimension = 10000):
     x0 = np.array([1]*problem_dimension)
-    population_size = 50 # lambda is a reserved keyword in python, using lambda_ instead.
+    population_size = 50 
     seed = 0 # 0 for seed auto-generated within the lib.
     sigma = 0.1
 
@@ -81,7 +78,7 @@ def test_high_dimensional_ask_tell_communication_time_cpp(problem_dimension = 10
 
 def test_high_dimensional_ask_tell_communication_time_py(problem_dimension = 10000):
     x0 = np.array([1]*problem_dimension)
-    population_size = 50 # lambda is a reserved keyword in python, using lambda_ instead.
+    population_size = 50
     seed = 0 # 0 for seed auto-generated within the lib.
     sigma = 0.1
 
