@@ -35,10 +35,10 @@ ext_modules = [
 setup(
     name="es",
     version=__version__,
-    author="Nima and Stefan",
+    author="Nima",
     author_email="ndizbin14@ku.edu.tr",
     url="",
-    description="A python wrapper for libcmaes using pybind11",
+    description="A python wrapper around the libcmaes library using pybind11",
     long_description="",
     ext_modules=ext_modules,
     extras_require={"test": "pytest"},
